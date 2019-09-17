@@ -50,6 +50,8 @@ int main(int argc, char* argv[])
     /* CHP8 emu */
     struct emu_t* emu;
     enum  status status = PAUSED;
+    int steps_per_frame = 1000;
+    uint32_t last_tick = SDL_GetTicks();
 
     /* CHP8 setup */
     emu = chp8_init();
@@ -108,7 +110,7 @@ int main(int argc, char* argv[])
             nk_sdl_handle_event(&evt);
         } nk_input_end(ctx);
 
-        switch (chp8_debug_window(ctx, emu, status)) {
+        switch (chp8_debug_window(ctx, emu, status, &steps_per_frame)) {
             case PAUSE:
                 status = PAUSED; break;
             case STEP:
@@ -138,13 +140,17 @@ int main(int argc, char* argv[])
         nk_sdl_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_MEMORY, MAX_ELEMENT_MEMORY);
         SDL_GL_SwapWindow(win);
 
-        Uint32 start = SDL_GetTicks();
+        /* Correr ejecutar varias instrucciones y chequear si corresponde
+         * correr el tick del emu */
+        if (status == RUNNING) {
+            for (int i = 0; i < steps_per_frame; i++)
+                chp8_singlestep(emu);
 
-        /* Correr hasta que haya pasado casi 1/60 de segundo */
-        if (status == RUNNING)
-        while (SDL_GetTicks() < start + 16)
-            chp8_singlestep(emu);
-        chp8_tick(emu);
+            if (last_tick + 16 < SDL_GetTicks()) {
+                chp8_tick(emu);
+                last_tick = SDL_GetTicks();
+            }
+        }
     }
 
 cleanup:

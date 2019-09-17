@@ -87,7 +87,7 @@ const char* current_instr(emu_t *emu) {
     nk_labelf(ctx, NK_TEXT_ALIGN_LEFT, "V"#idx ": %X", emu->V[0x##idx])
 
 enum action chp8_debug_window(struct nk_context *ctx, struct emu_t* emu,
-                              enum status status) {
+                              enum status status, int* steps_per_frame) {
     enum action action = NONE;
 
     if (nk_begin(ctx, "CHP8 Debug", nk_rect(50, 50, 300, 460),
@@ -104,6 +104,10 @@ enum action chp8_debug_window(struct nk_context *ctx, struct emu_t* emu,
         nk_layout_row_dynamic(ctx, 0, 2);
         if (nk_button_label(ctx, "reset"))
             action = RESET;
+        nk_layout_row_dynamic(ctx, 0, 2);
+        nk_label(ctx, "Steps per frame",
+                 NK_TEXT_ALIGN_LEFT | NK_TEXT_ALIGN_BOTTOM);
+        nk_slider_int(ctx, 1, steps_per_frame, 1000, 1);
 
         nk_layout_row_dynamic(ctx, 0, 2);
         EMU_PROP(pc);

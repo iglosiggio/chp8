@@ -20,7 +20,7 @@ enum status { RUNNING, PAUSED };
  *   la acción a ejecutar.
  */
 enum action chp8_debug_window(struct nk_context *ctx, struct emu_t* emu,
-                              enum status status);
+                              enum status status, int* steps_per_frame);
 
 /* chp8_display_window:
  *   Muestra el display del emulador (texto).
