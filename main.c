@@ -138,8 +138,13 @@ int main(int argc, char* argv[])
         nk_sdl_render(NK_ANTI_ALIASING_ON, MAX_VERTEX_MEMORY, MAX_ELEMENT_MEMORY);
         SDL_GL_SwapWindow(win);
 
+        Uint32 start = SDL_GetTicks();
+
+        /* Correr hasta que haya pasado casi 1/60 de segundo */
         if (status == RUNNING)
+        while (SDL_GetTicks() < start + 16)
             chp8_singlestep(emu);
+        chp8_tick(emu);
     }
 
 cleanup:

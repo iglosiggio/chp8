@@ -64,3 +64,8 @@ bool chp8_singlestep(struct emu_t* emu) {
 
     return true;
 }
+
+void chp8_tick(struct emu_t* emu) {
+    if (emu->DT)
+        emu->DT--;
+}

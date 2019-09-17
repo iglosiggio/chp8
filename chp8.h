@@ -30,4 +30,9 @@ bool chp8_load_from_file(struct emu_t* emu, const char* filename);
  *   terminó.
  */
 bool chp8_singlestep(struct emu_t* emu);
+
+/* chp8_tick:
+ *   Avanza el delay timer si es necesario
+ */
+void chp8_tick(struct emu_t* emu);
 #endif
