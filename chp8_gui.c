@@ -141,14 +141,14 @@ enum action chp8_debug_window(struct nk_context *ctx, struct emu_t* emu,
 void chp8_display_window(struct nk_context* ctx, struct emu_t* emu) {
     static char line[DISPLAY_COLS + 1];
 
-    if (nk_begin(ctx, "CHP8 Display", nk_rect(450, 70, 600, 600),
+    if (nk_begin(ctx, "CHP8 Display", nk_rect(450, 70, 500, 500),
         NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
         NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE)) {
 
         nk_layout_row_dynamic(ctx, 10, 1);
         for (int row = 0; row < DISPLAY_ROWS; row++) {
                 for (int col = 0; col < DISPLAY_COLS; col++)
-                        line[col] = emu->display[row][col] ? 'X' : '-';
+                        line[col] = emu->display[row][col] ? 'X' : ' ';
                 nk_label(ctx, line, NK_TEXT_ALIGN_LEFT);
         }
     }
