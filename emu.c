@@ -247,11 +247,11 @@ void handle_instruction(emu_t *emu, uint16_t ins) {
                 default:  goto unknown;
             }
             break;
-        case 0x9: op_sne     (emu, reg1, reg2); break;
-        case 0xA: op_ld_I    (emu, addr);       break;
-        case 0xB: op_jp_V0   (emu, addr);       break;
-        case 0xC: op_rnd     (emu, reg1, val);  break;
-        case 0xD: op_display (emu, reg1, reg2, NIBBLE_0(ins)); break;
+        case 0x9: op_sne_regs (emu, reg1, reg2); break;
+        case 0xA: op_ld_I     (emu, addr);       break;
+        case 0xB: op_jp_V0    (emu, addr);       break;
+        case 0xC: op_rnd      (emu, reg1, val);  break;
+        case 0xD: op_display  (emu, reg1, reg2, NIBBLE_0(ins)); break;
         case 0xE:
             if (val == 0x9E)      op_skp(emu, reg1);
             else if (val == 0xA1) op_skpn(emu, reg1);
